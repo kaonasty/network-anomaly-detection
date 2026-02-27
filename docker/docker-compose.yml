@@ -1,0 +1,46 @@
+services:
+
+  anomaly-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: anomaly-detection:latest
+    container_name: anomaly-api
+    ports:
+      - "8080:8080"
+    environment:
+      MLFLOW_TRACKING_URI: "sqlite:////app/mlflow.db"
+      MODEL_NAME: "network-anomaly-detector"
+      MODEL_STAGE: "Production"
+      ENV_NAME: "production"
+      AB_ENABLED: "false"
+      FALLBACK_ENABLED: "true"
+    volumes:
+      - ../mlflow.db:/app/mlflow.db
+      - ../mlruns:/app/mlruns
+      - ../data:/app/data
+    restart: unless-stopped
+
+  anomaly-api-ab:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: anomaly-detection:latest
+    container_name: anomaly-api-ab
+    profiles: [ ab ]
+    ports:
+      - "8081:8080"
+    environment:
+      MLFLOW_TRACKING_URI: "sqlite:////app/mlflow.db"
+      MODEL_NAME: "network-anomaly-detector"
+      MODEL_STAGE: "Production"
+      ENV_NAME: "production-ab"
+      AB_ENABLED: "true"
+      AB_SPLIT_RATIO: "0.8"
+      CHALLENGER_STAGE: "Staging"
+      FALLBACK_ENABLED: "true"
+    volumes:
+      - ../mlflow.db:/app/mlflow.db
+      - ../mlruns:/app/mlruns
+      - ../data:/app/data
+    restart: unless-stopped

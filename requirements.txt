@@ -1,0 +1,27 @@
+# Core ML
+mlflow>=2.10.0
+scikit-learn>=1.4.0
+xgboost>=2.0.0
+torch>=2.1.0
+optuna>=3.5.0
+
+# Data & Features
+pandas>=2.1.0
+numpy>=1.26.0
+pyarrow>=14.0.0
+feast>=0.36.0
+
+# Monitoring
+evidently>=0.4.0
+
+# Serving
+fastapi>=0.109.0
+uvicorn>=0.27.0
+httpx>=0.26.0
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Data Versioning
+dvc>=3.40.0

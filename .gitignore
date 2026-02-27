@@ -1,0 +1,41 @@
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+*.egg
+
+# ─── Virtual env ───
+.venv/
+venv/
+
+# ─── MLflow ───
+mlflow.db
+mlruns/
+
+# ─── Data (tracked by DVC) ───
+data/raw/
+data/features/
+
+# ─── Outputs ───
+outputs/
+
+# ─── OS ───
+.DS_Store
+Thumbs.db
+
+# ─── IDE ───
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ─── Docker ───
+*.tar
+
+# ─── DVC ───
+# .dvc files should be committed, but cache should not
+.dvc/cache/
+.dvc/tmp/

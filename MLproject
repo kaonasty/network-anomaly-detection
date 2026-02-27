@@ -1,0 +1,77 @@
+name: network-anomaly-detection
+
+python_env: requirements.txt
+
+entry_points:
+  generate_data:
+    parameters:
+      num_nodes:
+        type: int
+        default: 10
+      days:
+        type: int
+        default: 30
+      anomaly_rate:
+        type: float
+        default: 0.05
+    command: >
+      python data/generate_data.py
+      --num_nodes {num_nodes}
+      --days {days}
+      --anomaly_rate {anomaly_rate}
+
+  train_isolation_forest:
+    parameters:
+      contamination:
+        type: float
+        default: 0.05
+      n_estimators:
+        type: int
+        default: 200
+    command: >
+      python training/train_isolation_forest.py
+      --contamination {contamination}
+      --n_estimators {n_estimators}
+
+  train_xgboost:
+    parameters:
+      n_estimators:
+        type: int
+        default: 200
+      max_depth:
+        type: int
+        default: 6
+      learning_rate:
+        type: float
+        default: 0.1
+    command: >
+      python training/train_xgboost.py
+      --n_estimators {n_estimators}
+      --max_depth {max_depth}
+      --learning_rate {learning_rate}
+
+  train_autoencoder:
+    parameters:
+      epochs:
+        type: int
+        default: 50
+      learning_rate:
+        type: float
+        default: 0.001
+      hidden_dim:
+        type: int
+        default: 8
+    command: >
+      python training/train_autoencoder.py
+      --epochs {epochs}
+      --learning_rate {learning_rate}
+      --hidden_dim {hidden_dim}
+
+  optimize:
+    parameters:
+      n_trials:
+        type: int
+        default: 30
+    command: >
+      python training/optimize_hyperparams.py
+      --n_trials {n_trials}
