@@ -1,16 +1,16 @@
-# 🔍 Telecom Network Anomaly Detection
+# Telecom Network Anomaly Detection
 
 End-to-end MLOps project for detecting anomalies in telecom network metrics.
 
 ## Objectives Covered
 
-| # | Objective | Status |
-|---|-----------|--------|
-| 1 | Data & Feature Infrastructure | 🔲 |
-| 2 | Training & Experiment Infrastructure | 🔲 |
-| 3 | Model Artifact & Registry | 🔲 |
-| 4 | Serving & Ops | 🔲 |
-| 5 | Post-Deploy Monitoring | 🔲 |
+| # | Objective |
+|---|-----------|
+| 1 | Data & Feature Infrastructure |
+| 2 | Training & Experiment Infrastructure |
+| 3 | Model Artifact & Registry |
+| 4 | Serving & Ops |
+| 5 | Post-Deploy Monitoring |
 
 ## Quick Start
 
