@@ -1,0 +1,7 @@
+project: network_anomaly_detection
+registry: registry.pb
+provider: local
+online_store:
+  type: sqlite
+  path: online_store.db
+entity_key_serialization_version: 2

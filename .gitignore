@@ -16,8 +16,13 @@ mlflow.db
 mlruns/
 
 # ─── Data (tracked by DVC) ───
-data/raw/
-data/features/
+# Ignore the actual data files, but allow .dvc and .gitignore
+data/raw/*.csv
+data/raw/*.parquet
+data/features/*.parquet
+data/features/*.txt
+!data/raw/.gitignore
+!data/features/.gitignore
 
 # ─── Outputs ───
 outputs/
