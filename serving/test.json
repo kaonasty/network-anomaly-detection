@@ -1,0 +1,7 @@
+{
+    "latency_ms": 10,
+    "packet_loss_pct": 0.02,
+    "cpu_utilization": 40,
+    "bandwidth_mbps": 500,
+    "error_rate": 3
+}

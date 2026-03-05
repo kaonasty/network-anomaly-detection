@@ -17,12 +17,15 @@ Feature Flags:
   AB_SPLIT_RATIO  — fraction of traffic to primary model
   FALLBACK_ENABLED — enable rule-based fallback on model failure
 """
+# ── fix: torch must load before pandas/mlflow ──
 import os
 import sys
 import time
 import random
 import logging
 import numpy as np
+import torch                    # ← add this, before pandas and mlflow
+
 import pandas as pd
 from pathlib import Path
 from contextlib import asynccontextmanager
@@ -31,17 +34,20 @@ from typing import Optional
 import mlflow
 import mlflow.sklearn
 import mlflow.xgboost
-import mlflow.pytorch
+# ← remove "import mlflow.pytorch" from here
 from mlflow.tracking import MlflowClient
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 import uvicorn
-
 # ─────────────────────────────────────────────
 # Configuration
 # ─────────────────────────────────────────────
-MLFLOW_TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db")
+_project_root = Path(__file__).resolve().parent.parent
+MLFLOW_TRACKING_URI = os.getenv(
+    "MLFLOW_TRACKING_URI",
+    f"sqlite:///{_project_root}/mlflow.db"
+)
 MODEL_NAME = os.getenv("MODEL_NAME", "network-anomaly-detector")
 MODEL_STAGE = os.getenv("MODEL_STAGE", "Production")
 ENV_NAME = os.getenv("ENV_NAME", "production")
@@ -77,6 +83,7 @@ _ab_stats = {"primary_count": 0, "challenger_count": 0, "fallback_count": 0}
 
 def load_model(stage: str):
     """Load a model from MLflow registry by stage."""
+    import mlflow.pytorch
     try:
         model_uri = f"models:/{MODEL_NAME}/{stage}"
         logger.info(f"Loading model from {model_uri}")
@@ -374,4 +381,4 @@ async def reload_models():
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "8080"))
-    uvicorn.run("serving.serve:app", host="0.0.0.0", port=port, reload=False)
+    uvicorn.run("serve:app", host="0.0.0.0", port=port, reload=False)
