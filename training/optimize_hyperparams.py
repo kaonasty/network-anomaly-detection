@@ -127,7 +127,12 @@ def main():
                 return f1
 
         # ── Run Optuna study ──
-        study = optuna.create_study(direction="maximize")
+        study = optuna.create_study(
+            direction="maximize",
+            study_name="xgboost-anomaly-detection",
+            storage="sqlite:///optuna.db",   # ← add this
+            load_if_exists=True,             # ← allows resuming previous study
+        )
         study.optimize(objective, n_trials=args.n_trials, show_progress_bar=False)
 
         # ── Log best results ──
