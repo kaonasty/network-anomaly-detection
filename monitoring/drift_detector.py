@@ -24,20 +24,15 @@ from pathlib import Path
 from datetime import datetime
 
 try:
-    from evidently.report import Report
-    from evidently.metric_preset import DataDriftPreset, DataQualityPreset
-    from evidently.metrics import (
-        DataDriftTable,
-        DatasetDriftMetric,
-    )
+    from evidently.legacy.report import Report
+    from evidently.legacy.metric_preset import DataDriftPreset
+    from evidently.legacy.metrics import DataDriftTable, DatasetDriftMetric
     EVIDENTLY_AVAILABLE = True
-except ImportError:
+except (ImportError, Exception) as e:
     EVIDENTLY_AVAILABLE = False
-    print("⚠️  Evidently not installed. Install with: pip install evidently")
-
+    print(f"⚠️  Evidently not available: {e}")
 
 METRIC_COLS = ["latency_ms", "packet_loss_pct", "cpu_utilization", "bandwidth_mbps", "error_rate"]
-
 
 def simulate_drifted_data(reference_df: pd.DataFrame, drift_level: str = "moderate") -> pd.DataFrame:
     """

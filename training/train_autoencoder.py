@@ -14,15 +14,14 @@ import os
 import sys
 import time
 import numpy as np
-import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import mlflow
-import mlflow.pytorch
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
+import mlflow
+import pandas as pd
 from pathlib import Path
 from sklearn.metrics import (
     precision_score, recall_score, f1_score, roc_auc_score,
@@ -212,6 +211,7 @@ def parse_args():
 
 def main():
     args = parse_args()
+    import mlflow.pytorch
     project_root = Path(__file__).resolve().parent.parent
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
